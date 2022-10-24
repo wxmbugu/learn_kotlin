@@ -2,18 +2,16 @@
 class Rsa(primep: Int, primeq: Int) {
     var p: Int
     var q: Int
-    var pq: Int
+    val pq: Int get() = this.p * this.q
     var n: Int
     init {
         p = primep
         q = primeq
-        pq = p * q
         n = (p - 1) * (q - 1)
     }
 
     // input should be where there user wants range of prime number to be selected from
-    fun calculate_e(x: Int): Int {
-        var flag = false
+    fun public_key(x: Int): Pair<Int, Int> {
         if (x < 2) {
             throw Exception("invalid number calculate_e $x")
         } else {
@@ -23,42 +21,42 @@ class Rsa(primep: Int, primeq: Int) {
             // we also append the prime values with a gcd of one to an array
             // pick the lowest value with gcd of one from the array to reduce working with large values
             // we've gotten e
-            var primeno_array = intArrayOf(0)
             for (i in 2..x) {
-                primeno_array = checkPrime(i)
+                var primeno_array = checkPrime(i)
                 for (no in primeno_array) {
                     if (no >= 2) {
                         var (isgcd, value) = gcd(no, n)
                         if (isgcd) {
-                            return value
+                            return Pair(value, pq)
                         }
                     }
                 }
             }
         }
-        return 0
+        return Pair(0, 0)
     }
 
     // used to calculate private key
-    fun private_key(e: Int): Int {
+    fun private_key(e: Int): Pair<Int, Int> {
         // formula for calculating d = ((n*i) +1)/e
         // i is unknown and will help us get d
         // d should have a modulus of 0
+        // d is out private key
         var number = 1
         var d = 0
         while (number < 100) {
             if ((((n * number) + 1) % e) == 0) {
-                return ((n * number) + 1) / e
+                return Pair(((n * number) + 1) / e, pq)
             }
             number++
         }
-        return d
+        return Pair(d, 0)
     }
 }
 
 // getting the gcd of two values and the gcd should be one
 // for a number to have a gcd of one the division of the two number
-// should give you a modulus of one which is not 0.
+// should not give you a modulus 0.
 fun gcd(smallvalue: Int, largevalue: Int): Pair<Boolean, Int> {
     if (largevalue % smallvalue != 0) {
         return Pair(true, smallvalue)
@@ -100,14 +98,9 @@ fun addElement(arr: IntArray, element: Int): IntArray {
 }
 
 fun main() {
-    fun double_var(arg: Double) {
-        println(arg)
-    }
-    var rsa = Rsa(11, 13)
-    var value = rsa.calculate_e(20)
-    println(value)
-    var another_one = rsa.private_key(value)
-    println(another_one)
-    var x = 42.2
-    double_var(x)
+    var rsa = Rsa(137, 181)
+    var (public_key, public_value) = rsa.public_key(20)
+    println("Public Key pair:{$public_key,$public_value}")
+    var (private_key, private_value) = rsa.private_key(public_key)
+    println("Private Key pair:{$private_key, $private_value}")
 }
