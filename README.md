@@ -4,7 +4,7 @@
 
   - Learning kotlin through implementing on how to calculate the rsa encryption algorithm.
   - To learn about the rsa algorithm check this video.
-  - [![Rsa algorithm](https://i.ytimg.com/an_webp/4zahvcJ9glg/mqdefault_6s.webp?du=3000&sqp=CNDx2ZoG&rs=AOn4CLCclwr8RZU-55T_k9sj4z3Gng5krw)](https://youtu.be/4zahvcJ9glg)
+  - [![Rsa algorithm](https://i.ytimg.com/an_webp/4zahvcJ9glg/mqdefault_6s.webp?du=3000&sqp=CICD3poG&rs=AOn4CLDsi3iFhouqiODW8ZQAQrxQJ6JV6A)](https://youtu.be/4zahvcJ9glg)
 
 
 ### Prerequisite
